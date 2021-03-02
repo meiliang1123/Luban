@@ -285,15 +285,14 @@ class SvgModel {
 
     async updateSource() {
         const { width, height } = this.elem.getBBox();
-        const { scaleX, scaleY } = this.relatedModel.transformation;
         const uploadName = await this.uploadSourceFile();
         this.relatedModel.updateSource({
             uploadName,
             processImageName: uploadName,
             width,
             height,
-            sourceWidth: width * Math.abs(scaleX) * DEFAULT_SCALE,
-            sourceHeight: height * Math.abs(scaleY) * DEFAULT_SCALE
+            sourceWidth: width * DEFAULT_SCALE,
+            sourceHeight: height * DEFAULT_SCALE
         });
     }
 
@@ -334,6 +333,7 @@ class SvgModel {
     refreshElemAttrs() {
         const elem = this.elem;
         const { config, transformation, uploadName, width, height } = this.relatedModel;
+        console.log(width);
         const href = `${DATA_PREFIX}/${uploadName}`;
         const { positionX, positionY } = transformation;
         for (const key of Object.keys(config)) {
@@ -424,7 +424,7 @@ class SvgModel {
 
         const center = { x: x + width / 2, y: y + height / 2 };
         const { x: positionX, y: positionY } = this.pointSvgToModel(remap(center));
-
+        console.log(center, remap(center), { positionX, positionY });
         const attrs = {
             config: {
                 'stroke-width': this.elem.getAttribute('stroke-width')
