@@ -311,6 +311,8 @@ class ThreeModel extends BaseModel {
         clone.originModelID = this.modelID;
         clone.modelID = uuid.v4();
         this.meshObject.updateMatrixWorld();
+        // to set proper material
+        clone.setSelected();
 
         clone.setMatrix(this.meshObject.matrixWorld);
 
