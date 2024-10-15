@@ -1,12 +1,21 @@
 name: Build on Release created
 
 on:
+    push:
+        branches:
+            - main
+
+    pull_request:
+        branches:
+            - main
+
+    workflow_dispatch: # allows for manual dispatch
+
     release:
         types:
             - created
 
 jobs:
-
     build-windows:
         name: Build Windows Packages
 
@@ -20,7 +29,7 @@ jobs:
               uses: actions/checkout@v4
               with:
                   token: ${{ secrets.SACP_TOKEN }}
-                  submodules: 'true'
+                  submodules: "true"
 
             - name: Checkout submodules
               run: git submodule update --init --recursive
@@ -52,14 +61,14 @@ jobs:
         name: Build macOS Packages
 
         # macos-11.7
-        runs-on: macos-11
+        runs-on: macos-latest
 
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
               with:
-                  token: ${{ secrets.SACP_TOKEN }}
-                  submodules: 'true'
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  submodules: "true"
 
             - name: Checkout submodules
               run: git submodule update --init --recursive
@@ -100,7 +109,7 @@ jobs:
               if: github.repository == 'Snapmaker/Luban'
               uses: yizhoumo/setup-ossutil@v1
               with:
-                  ossutil-version: '1.7.0'
+                  ossutil-version: "1.7.0"
                   endpoint: ${{ secrets.OSS_ENDPOINT }}
                   access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
                   access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
@@ -122,7 +131,7 @@ jobs:
               uses: actions/checkout@v4
               with:
                   token: ${{ secrets.SACP_TOKEN }}
-                  submodules: 'true'
+                  submodules: "true"
 
             - name: Checkout submodules
               run: git submodule update --init --recursive
@@ -165,7 +174,7 @@ jobs:
               if: github.repository == 'Snapmaker/Luban'
               uses: yizhoumo/setup-ossutil@v1
               with:
-                  ossutil-version: '1.7.0'
+                  ossutil-version: "1.7.0"
                   endpoint: ${{ secrets.OSS_ENDPOINT }}
                   access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
                   access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
